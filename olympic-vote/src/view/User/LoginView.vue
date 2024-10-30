@@ -1,17 +1,19 @@
 <template>
-    <div class="login-container">
-        <el-form ref="loginForm" :model="loginForm" label-width="80px">
-            <el-form-item label="用户名">
-                <el-input v-model="loginForm.username" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="login">登录</el-button>
-                <el-button @click="resetForm">重置</el-button>
-            </el-form-item>
-        </el-form>
+    <div class="background">
+        <div class="login-container">
+            <el-form ref="loginForm" :model="loginForm" label-width="80px">
+                <el-form-item label="用户名">
+                    <el-input v-model="loginForm.username" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="login">登录</el-button>
+                    <el-button @click="resetForm">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -45,14 +47,36 @@ export default {
 </script>
 
 <style scoped>
+/* 页面背景 */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('@/assets/Login/more-background-pic.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 登录框样式 */
 .login-container {
-    max-width: 400px;
-    margin: 0 auto;
+    width: 400px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* 半透明白色背景 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 登录框浮动和阴影效果 */
+.login-container:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .el-form-item label {

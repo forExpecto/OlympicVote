@@ -1,15 +1,15 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
-import BasicMasage from '@/view/User/BasicMasage.vue';
+import BasicMassage from '@/view/User/BasicMassage.vue';
 import LoginView from '@/view/User/LoginView.vue';
 import RegisterView from '@/view/User/RegisterView.vue';
 import VoteView from '@/view/vote/VoteView.vue';
 
 const routes = [
     {
-        path: '/BasicMasage',
-        name: 'BasicMasage',
-        component: BasicMasage
+        path: '/BasicMessage',
+        name: 'BasicMassage',
+        component: BasicMassage
     },
     {
         path: '/LoginView',
