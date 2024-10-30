@@ -2,6 +2,7 @@
     <div class="background">
         <div class="login-container">
             <el-form ref="loginForm" :model="loginForm" label-width="80px">
+                <div class="login-font">奥林匹克系统登录</div>
                 <el-form-item label="用户名">
                     <el-input v-model="loginForm.username" autocomplete="off"></el-input>
                 </el-form-item>
@@ -11,6 +12,7 @@
                 <el-form-item>
                     <el-button type="primary" @click="login">登录</el-button>
                     <el-button @click="resetForm">重置</el-button>
+                    <el-button @click="register">注册</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -37,10 +39,18 @@ export default {
             // }).catch(error => {
             //   // 登录失败后的处理
             // });
+
+            // 模拟登录成功后的跳转
+            this.$router.push('/VoteView');
+
         },
         resetForm() {
             // 重置表单
             this.$refs.loginForm.resetFields();
+        },
+        register() {
+            // 跳转到注册页面
+            this.$router.push('/RegisterView');
         }
     }
 };
@@ -72,6 +82,20 @@ export default {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+/* 登录框字体 */
+.login-font {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+
 
 /* 登录框浮动和阴影效果 */
 .login-container:hover {

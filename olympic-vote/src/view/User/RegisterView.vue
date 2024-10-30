@@ -1,26 +1,29 @@
 <template>
-    <div class="register-container">
-        <el-form ref="registerForm" :model="registerForm" label-width="80px">
-            <el-form-item label="用户名">
-                <el-input v-model="registerForm.user_name" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input type="password" v-model="registerForm.user_password" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱">
-                <el-input v-model="registerForm.user_email" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号">
-                <el-input v-model="registerForm.user_phone" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="地址">
-                <el-input v-model="registerForm.user_address" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="register">注册</el-button>
-                <el-button @click="resetForm">重置</el-button>
-            </el-form-item>
-        </el-form>
+    <div class="background">
+        <div class="register-container">
+            <el-form ref="registerForm" :model="registerForm" label-width="80px">
+                <div class="register-font">注册</div>
+                <el-form-item label="用户名">
+                    <el-input v-model="registerForm.user_name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input type="password" v-model="registerForm.user_password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="registerForm.user_email" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号">
+                    <el-input v-model="registerForm.user_phone" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="registerForm.user_address" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="register">注册</el-button>
+                    <el-button @click="resetForm">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -42,15 +45,8 @@ export default {
         register() {
             // 在这里处理注册逻辑
             console.log('注册表单数据：', this.registerForm);
-            // 表单验证通过后，可以调用注册API
-            // this.$http.post('/api/register', this.registerForm).then(response => {
-            //   // 注册成功后的处理
-            // }).catch(error => {
-            //   // 注册失败后的处理
-            // });
         },
         resetForm() {
-            // 重置表单
             this.$refs.registerForm.resetFields();
         }
     }
@@ -58,16 +54,52 @@ export default {
 </script>
 
 <style scoped>
-.register-container {
-    align-items: center;
+/* 页面背景设置 */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('@/assets/Login/register-backgroud.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.register-font {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+
+/* 注册框样式 */
+.register-container {
     max-width: 400px;
-    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* 半透明背景 */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    /* 平滑过渡效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* 初始阴影 */
+}
+
+/* 悬停效果 */
+.register-container:hover {
+    transform: translate(-5px, -5px);
+    /* 向左上角浮动 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    /* 增强阴影 */
 }
 
 .el-form-item label {
