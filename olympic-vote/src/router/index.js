@@ -7,11 +7,6 @@ import VoteView from '@/view/vote/VoteView.vue';
 
 const routes = [
     {
-        path: '/',
-        name: 'Home',
-        component: () => import('../views/Home.vue')
-    },
-    {
         path: '/BasicMasage',
         name: 'BasicMasage',
         component: BasicMasage
