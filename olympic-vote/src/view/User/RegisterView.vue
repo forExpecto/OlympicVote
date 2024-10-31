@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+axios.defaults.baseURL = 'URL_ADDRESS'; // 设置后端接口的基础URL
 export default {
     data() {
         return {
@@ -44,6 +46,18 @@ export default {
     methods: {
         register() {
             // 在这里处理注册逻辑
+            // 发送注册请求到后端
+            axios.post('/api/register', this.registerForm)
+                .then(response => {
+                    if (response.data.success) {
+                        // 注册成功，跳转到登录页面
+                        this.$router.push('/LoginView');
+                    } else {
+                        // 注册失败，显示错误信息
+                        this.$message.error(response.data.message);
+                        alert('注册失败');
+                    }
+                })
             console.log('注册表单数据：', this.registerForm);
         },
         resetForm() {
@@ -61,7 +75,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('@/assets/Login/register-backgroud.jpg');
+    background-image: url('@/assets/Login/background1.jpg');
     background-size: cover;
     background-position: center;
     display: flex;

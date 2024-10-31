@@ -4,6 +4,8 @@ import BasicMassage from '@/view/User/BasicMassage.vue';
 import LoginView from '@/view/User/LoginView.vue';
 import RegisterView from '@/view/User/RegisterView.vue';
 import VoteView from '@/view/vote/VoteView.vue';
+import DashBoard from '@/view/Administer/DashBoard.vue';
+
 
 const routes = [
     {
@@ -25,7 +27,13 @@ const routes = [
         path: '/VoteView',
         name: 'VoteView',
         component: VoteView
-    }
+    },
+
+    {
+        path: '/DashBoard',
+        name: 'DashBoard',
+        component: DashBoard
+    },
 ]
 
 const router = createRouter({

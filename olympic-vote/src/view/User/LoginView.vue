@@ -4,10 +4,10 @@
             <el-form ref="loginForm" :model="loginForm" label-width="80px">
                 <div class="login-font">奥林匹克系统登录</div>
                 <el-form-item label="用户名">
-                    <el-input v-model="loginForm.username" autocomplete="off"></el-input>
+                    <el-input v-model="loginForm.user_name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="loginForm.user_password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="login">登录</el-button>
@@ -20,29 +20,38 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             loginForm: {
-                username: '',
-                password: ''
+                user_name: '',
+                user_password: ''
             }
         };
     },
     methods: {
-        login() {
-            // 在这里处理登录逻辑
-            console.log('登录表单数据：', this.loginForm);
-            // 表单验证通过后，可以调用登录API
-            // this.$http.post('/api/login', this.loginForm).then(response => {
-            //   // 登录成功后的处理
-            // }).catch(error => {
-            //   // 登录失败后的处理
-            // });
+        async login() {
+            try {
+                const response = await axios.post('/api/login', this.loginForm);
 
-            // 模拟登录成功后的跳转
-            this.$router.push('/VoteView');
+                if (response.data.success) {
+                    // token，保存到 localStorage 中
+                    localStorage.setItem('token', response.data.token);
 
+
+
+                    // 跳转到投票页面
+                    this.$router.push('/VoteView');
+                } else {
+                    this.$message.error('用户名或密码错误');
+                    alert('用户名或密码错误');
+                }
+            } catch (error) {
+                console.error('登录失败:', error);
+                this.$message.error('登录失败，请重试');
+            }
         },
         resetForm() {
             // 重置表单
@@ -57,14 +66,14 @@ export default {
 </script>
 
 <style scoped>
-/* 页面背景 */
+/* 样式代码保持不变 */
 .background {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('@/assets/Login/more-background-pic.jpg');
+    background-image: url('@/assets/Login/background1.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -72,19 +81,15 @@ export default {
     align-items: center;
 }
 
-/* 登录框样式 */
 .login-container {
     width: 400px;
     padding: 20px;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.8);
-    /* 半透明白色背景 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-/* 登录框字体 */
 .login-font {
     font-size: 24px;
     font-weight: bold;
@@ -93,11 +98,6 @@ export default {
     margin-bottom: 20px;
 }
 
-
-
-
-
-/* 登录框浮动和阴影效果 */
 .login-container:hover {
     transform: translate(-5px, -5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
