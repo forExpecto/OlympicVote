@@ -1,37 +1,33 @@
 <template>
     <div>
-        <button @click="getjson">测试</button>
+
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     data() {
         return {
-            jsonData: [],
-        };
+            userInfo: {
+                user_id: 1,
+                user_name: '张三',
+                user_email: 'EMAIL',
+                user_phone: '12345678901',
+                user_password: '123456',
+                user_address: '北京市朝阳区',
+                user_score: 100,
+                user_ip: 'IP_ADDRESS',
+                is_admin: 0
+            }
+        }
+
     },
     methods: {
-        async getjson() {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error("Token not found");
-                }
-                const response = await axios.get('URL_ADDRESS', {
-                    headers: {
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOjMzMzc0MzIyOTE4MDcxMDkxMiwidXNlcm5hbWUiOiJ4aW5neXVlIn0sImV4cCI6MTczMDM4NTkzNX0.04fEixFn-8itrQQRn8NSIzp9avHR9WBAxBxO66rtXb0'
-                    }
-                });
-                console.log(response.data)
-            } catch (error) {
-                console.error(error);
-            }
-        },
-    },
+        getUserInfo() {
 
+        }
+
+    }
 }
 
 

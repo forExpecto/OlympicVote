@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
     name: 'UserInfo',
     data() {
@@ -65,25 +64,17 @@ export default {
             }
         }
     },
-    getUserInofo() {
-        const user_name = localStorage.getItem('user_name');
-        const user_password = localStorage.getItem('user_password');
-        if (user_name && user_password) {
-            // 发送请求到后端，查询用户信息
-            axios.get('/api/user', { params: { user_name, user_password } })
-                .then(response => {
-                    // 将后端返回的用户对象存储在userInfo中
-                    this.userInfo = response.data;
-                })
-                .catch(error => {
-                    console.error('获取用户信息失败:', error);
-                });
+    getUserInfo() {
+        const userDataString = localStorage.getItem('userData');
+        if (userDataString) {
+            const userInfo = JSON.parse(userDataString);
+            console.log('用户信息获取成功:', userInfo);
         }
     },
 
-    created() {
-
-    },
+    // created() {
+    //     this.getUserInfo();
+    // },
     methods: {
         gotoVote() {
             // 跳转到投票页面

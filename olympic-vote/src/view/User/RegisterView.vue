@@ -43,26 +43,38 @@ export default {
         };
     },
     methods: {
-        register() {
-            // 在这里处理注册逻辑
-            // 发送注册请求到后端
-            axios.post('/api/register', this.registerForm)
-                .then(response => {
-                    if (response.data.success) {
-                        // 注册成功，跳转到登录页面
-                        this.$router.push('/LoginView');
-                    } else {
-                        // 注册失败，显示错误信息
-                        this.$message.error(response.data.message);
-                        alert('注册失败');
+        async register() {
+            try {
+                // 创建 form-data 格式的数据
+                const formData = new FormData();
+                formData.append('phone', this.registerForm.phone);
+                formData.append('password', this.registerForm.password);
+                formData.append('username', this.registerForm.username);
+                formData.append('address', this.registerForm.address);
+                formData.append('email', this.registerForm.email);
+
+                // 发送注册请求
+                const response = await axios.post('/api/user/register', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
-                })
-            console.log('注册表单数据：', this.registerForm);
+                });
+
+                if (response.data.code === 0) {
+                    alert('注册成功！');
+                    // 清空表单
+                    this.resetForm();
+                } else {
+                    console.error('注册失败:', response.data.message);
+                    alert('注册失败：' + response.data.message);
+                }
+            } catch (error) {
+                console.error('注册请求出错:', error);
+                alert('注册请求出错，请检查网络连接');
+            }
         },
-        resetForm() {
-            this.$refs.registerForm.resetFields();
-        }
     }
+
 };
 </script>
 

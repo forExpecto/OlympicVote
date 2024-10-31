@@ -53,16 +53,11 @@ export default {
                 if (response.data.code === 0) {
                     console.log('登录成功:', response.data.message);
 
-                    this.$router.push('/VoteView');
-
-                    this.getUserInfo();
-
+                    this.$router.push('/VoteView'); // 跳转到投票页面
                     const token = response.data.data; // 保存 token
                     localStorage.setItem('token', token); // 将 token 存储到 localStorage
                 } else {
                     console.error('登录失败:', response.data.message);
-
-
                 }
             } catch (error) {
                 console.error('登录请求出错:', error);
@@ -80,12 +75,25 @@ export default {
                     method: 'get',
                     url: '/api/user/info',
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': token
                     }
                 });
                 if (response.data.code === 0) {
                     this.userInfo = response.data.data;
                     console.log('用户信息获取成功:', this.userInfo);
+
+
+                    const userData = response.data.user;
+                    const userDataString = JSON.stringify(userData);
+
+                    // 将用户数据存储在 localStorage 中
+                    localStorage.setItem('userData', userDataString);
+                    console.log('用户信息保存成功')
+
+
+                    // 跳转到投票页面
+                    this.$router.push('/VoteView');
+
                 } else {
                     console.error('获取用户信息失败:', response.data.message);
                 }

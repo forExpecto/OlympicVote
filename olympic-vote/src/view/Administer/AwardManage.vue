@@ -1,32 +1,24 @@
 <template>
-    <div>
-        <h2>奖品添加</h2>
+    <div class="exchange-list-page">
+        <h2>查询兑换列表</h2>
+        <el-form label-width="100px">
+            <el-form-item label="页码">
+                <el-input v-model.number="page" placeholder="请输入页码"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="fetchExchangeList">查询兑换</el-button>
+            </el-form-item>
+        </el-form>
 
-        <!-- 添加/修改奖品的表单 -->
-        <form @submit.prevent="submitReward">
-            <label>奖品编号：</label>
-            <input v-model="reward.reward_id" :disabled="isEditing" required />
-
-            <label>奖品数量：</label>
-            <input v-model.number="reward.number" type="number" required />
-
-            <label>要求积分：</label>
-            <input v-model.number="reward.score" type="number" required />
-
-            <label>奖品名称：</label>
-            <input v-model="reward.name" required />
-
-            <button type="submit">{{ isEditing ? '更新奖品' : '添加奖品' }}</button>
-        </form>
-
-        <!-- 奖品列表 -->
-        <h2>奖品列表</h2>
-        <ul>
-            <li v-for="reward in rewards" :key="reward.reward_id">
-                {{ reward.name }} (编号: {{ reward.reward_id }}, 数量: {{ reward.number }}, 积分: {{ reward.score }})
-                <button @click="editReward(reward)">编辑</button>
-            </li>
-        </ul>
+        <div v-if="exchangeList.length">
+            <h3>兑换列表</h3>
+            <ul>
+                <li v-for="item in exchangeList" :key="item.rewardId">
+                    奖品名称: {{ item.name }} | 所需积分: {{ item.score }} | 库存数量: {{ item.number }}
+                </li>
+            </ul>
+        </div>
+        <p v-else>当前无可兑换奖品</p>
     </div>
 </template>
 
@@ -36,69 +28,70 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            rewards: [
-
-            ],
-            reward: {
-                reward_id: '',
-                number: '',
-                score: '',
-                name: '',
-            },
-            isEditing: false, // 用于标记当前是否处于编辑状态
+            page: 1,            // 当前页码
+            exchangeList: [],   // 存储兑换列表
         };
     },
     methods: {
-        // 获取奖品数据
-        async fetchRewards() {
+        async fetchExchangeList() {
             try {
-                const response = await axios.get('/api/rewards');
-                this.rewards = response.data;
-            } catch (error) {
-                console.error("获取奖品列表失败:", error);
-            }
-        },
-
-        // 提交表单：添加或更新奖品
-        async submitReward() {
-            try {
-                if (this.isEditing) {
-                    // 更新奖品信息
-                    await axios.put(`/api/rewards/${this.reward.reward_id}`, this.reward);
-                    console.log("奖品更新成功");
-                } else {
-                    // 添加新奖品
-                    await axios.post('/api/rewards', this.reward);
-                    console.log("奖品添加成功");
+                const token = localStorage.getItem("token"); // 获取存储在 localStorage 中的 token
+                if (!token) {
+                    alert('请先登录！');
+                    return;
                 }
 
-                // 重新获取奖品列表并重置表单
-                this.fetchRewards();
-                this.resetForm();
+                // 发送请求
+                const response = await axios.get('/api/vote/exchange', {
+                    headers: {
+                        'Authorization': token,
+                    },
+                    params: {
+                        page: this.page,
+                    }
+                });
+
+                // 解析返回结构
+                if (response.data.code === 0) {
+                    this.exchangeList = response.data.data; // 成功获取数据，将 data 数组直接赋值给 exchangeList
+                    console.log('兑换列表:', this.exchangeList);
+                } else {
+                    console.error('查询失败:', response.data.message);
+                    alert('查询失败：' + response.data.message);
+                    this.exchangeList = [];
+                }
             } catch (error) {
-                console.error("提交奖品失败:", error);
+                console.error('请求失败:', error);
+                alert('请求失败，请检查网络连接');
+                this.exchangeList = [];
             }
         },
-
-        // 编辑奖品
-        editReward(reward) {
-            this.reward = { ...reward };
-            this.isEditing = true;
-        },
-
-        // 重置表单
-        resetForm() {
-            this.reward = {
-                reward_id: '',
-                number: '',
-                score: '',
-                name: '',
-            };
-            this.isEditing = false;
-        },
-    },
-    mounted() {
-        this.fetchRewards();
-    },
+    }
 };
 </script>
+
+<style scoped>
+.exchange-list-page {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exchange-list-page h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+</style>

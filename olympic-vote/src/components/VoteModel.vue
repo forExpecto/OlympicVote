@@ -6,13 +6,13 @@
       <div>
         <label>
           <input type="radio" v-model="selectedTeam" :value="props.match.player_one" />
-          {{ props.match.player_one }}
+          {{ props.match.player_one_name }}
         </label>
       </div>
       <div>
         <label>
           <input type="radio" v-model="selectedTeam" :value="props.match.player_two" />
-          {{ props.match.player_two }}
+          {{ props.match.player_two_name }}
         </label>
       </div>
       <button @click="submitVote" :disabled="!selectedTeam">提交</button>
