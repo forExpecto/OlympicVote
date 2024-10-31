@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>奖品管理</h2>
+        <h2>奖品添加</h2>
 
         <!-- 添加/修改奖品的表单 -->
         <form @submit.prevent="submitReward">
@@ -20,7 +20,7 @@
         </form>
 
         <!-- 奖品列表 -->
-        <h3>奖品列表</h3>
+        <h2>奖品列表</h2>
         <ul>
             <li v-for="reward in rewards" :key="reward.reward_id">
                 {{ reward.name }} (编号: {{ reward.reward_id }}, 数量: {{ reward.number }}, 积分: {{ reward.score }})
@@ -36,7 +36,9 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            rewards: [],
+            rewards: [
+
+            ],
             reward: {
                 reward_id: '',
                 number: '',

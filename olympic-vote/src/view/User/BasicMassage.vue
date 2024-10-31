@@ -48,9 +48,7 @@
 
 <script>
 import axios from 'axios';
-axios.defaults.baseURL = 'URL_ADDRESS'; // 设置后端接口的基础URL
 export default {
-
     name: 'UserInfo',
     data() {
         return {

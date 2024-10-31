@@ -5,7 +5,6 @@
       <thead>
         <tr>
           <th>比赛时间</th>
-          <th>比赛大项</th>
           <th>比赛</th>
           <th>对战双方</th>
           <th>竞猜投票</th>
@@ -13,10 +12,9 @@
       </thead>
       <tbody>
         <tr v-for="(match, index) in props.matches" :key="index">
-          <td>{{ match.start_time }}</td>
-          <td>{{ match.event }}</td>
+          <td>{{ match.match_start_time }}</td>
           <td>{{ match.match_name }}</td>
-          <td>{{ match.player_one }} vs {{ match.player_two }}</td>
+          <td>{{ match.player_one_name }} vs {{ match.player_two_name }}</td>
           <td><button @click="$emit('viewDetails', match)">预测</button></td>
         </tr>
       </tbody>

@@ -11,6 +11,7 @@
     </MatchTable>
 
     <VoteModal v-if="showVoteModal" :match="selectedMatch" @close="closeVoteModal" @confirmVote="submitVote"></VoteModal>
+	
   </div>
 </template>
 
@@ -20,6 +21,8 @@ import MatchTable from '../../components/MatchTable.vue';
 import VoteModal from '../../components/VoteModel.vue';
 import axios from 'axios';
 
+
+
 const matchList = ref([]);
 const selectedDate = ref('');
 const currentPage = ref(1);
@@ -28,16 +31,18 @@ const selectedMatch = ref(null);
 
 // 默认的数据，用于网络请求失败的情况
 const defaultMatches = Array(10).fill({
-  start_time: '2024-12-01 18:00',
-  event: '足球',
+  vote_id:1,
+  match_start_time: '2024-12-01 18:00',
   match_name: '男足决赛',
-  player_one: '队伍A',
-  player_two: '队伍B',
+  player_one_name: '队伍A',
+  player_two_name: '队伍B',
+  player_one:'12345',
+  player_two:'23456'
 });
 
 const fetchMatchesByDate = async () => {
   try {
-    const response = await axios.get('/api/matches', {
+    const response = await axios.get('/vote/info', {
       params: { date: selectedDate.value, page: currentPage.value },
     });
     matchList.value = response.data.matches;
@@ -61,11 +66,11 @@ const closeVoteModal = () => {
 const submitVote = async (choice) => {
   try {
     await axios.post('/vote/action', {
-      target: selectedMatch.value.match_name,
+      vote_id: selectedMatch.value.match_name,
       choice,
     }, {
       headers: {
-        token: 'your-auth-token', // 替换为实际的 token
+        Authorization: "Bearer"+localStorage.getItem("token"), // 替换为实际的 token
       },
     });
     alert('投票成功！');

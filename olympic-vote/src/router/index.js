@@ -5,7 +5,7 @@ import LoginView from '@/view/User/LoginView.vue';
 import RegisterView from '@/view/User/RegisterView.vue';
 import VoteView from '@/view/vote/VoteView.vue';
 import DashBoard from '@/view/Administer/DashBoard.vue';
-
+import TestView from '@/view/test/TestView.vue';
 
 const routes = [
     {
@@ -34,6 +34,11 @@ const routes = [
         name: 'DashBoard',
         component: DashBoard
     },
+    {
+        path: '/TestView',
+        name: 'TestView',
+        component: TestView
+    }
 ]
 
 const router = createRouter({
