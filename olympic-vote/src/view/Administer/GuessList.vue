@@ -13,20 +13,17 @@
             </el-form-item>
         </el-form>
 
-        <div v-if="voteList.length">
-            <h3>竞猜数据列表</h3>
-            <ul>
-                <li v-for="vote in voteList" :key="vote.voteId">
-                    <p>比赛名称: {{ vote.matchName }}</p>
-                    <p>比赛开始时间: {{ vote.matchStartTime }}</p>
-                    <p>比赛结束时间: {{ vote.matchEndTime }}</p>
-                    <p>队伍1: {{ vote.teamOneName }} - 队员: {{ vote.teamOneMembers.join(', ') }}</p>
-                    <p>队伍2: {{ vote.teamTwoName }} - 队员: {{ vote.teamTwoMembers.join(', ') }}</p>
-                    <p>胜出队伍: {{ vote.winTeamName || '待定' }}</p>
-                    <hr />
-                </li>
-            </ul>
-        </div>
+        <el-table v-if="voteList.length" :data="voteList" style="width: 100%">
+            <el-table-column prop="matchName" label="比赛名称" />
+            <el-table-column prop="matchStartTime" label="比赛开始时间" />
+            <el-table-column prop="matchEndTime" label="比赛结束时间" />
+            <el-table-column prop="teamOneName" label="队伍1名称" />
+            <el-table-column prop="teamOneMembers" label="队伍1队员" />
+            <el-table-column prop="teamTwoName" label="队伍2名称" />
+            <el-table-column prop="teamTwoMembers" label="队伍2队员" />
+            <el-table-column prop="winTeamName" label="胜出队伍" />
+        </el-table>
+
         <p v-else>暂无竞猜数据</p>
     </div>
 </template>
@@ -37,21 +34,20 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            pageNo: 1,            // 当前页码
-            pageSize: 10,         // 每页显示的条数
-            voteList: [],         // 存储竞猜数据列表
+            pageNo: 1,
+            pageSize: 10,
+            voteList: [],
         };
     },
     methods: {
         async fetchVoteList() {
             try {
-                const token = localStorage.getItem("token"); // 获取存储在 localStorage 中的 token
+                const token = localStorage.getItem("token");
                 if (!token) {
                     alert('请先登录！');
                     return;
                 }
 
-                // 发送请求
                 const response = await axios.get('/api/admin/vote/list', {
                     headers: {
                         'Authorization': token,
@@ -62,9 +58,8 @@ export default {
                     }
                 });
 
-                // 解析返回结构
                 if (response.data.code === 0) {
-                    this.voteList = response.data.data.voteList; // 成功获取数据，将 data.voteList 数组直接赋值给 voteList
+                    this.voteList = response.data.data.voteList;
                     console.log('竞猜数据列表:', this.voteList);
                 } else {
                     console.error('查询失败:', response.data.message);
@@ -94,15 +89,5 @@ export default {
 .vote-list-page h2 {
     text-align: center;
     margin-bottom: 20px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 20px;
-    font-weight: bold;
 }
 </style>

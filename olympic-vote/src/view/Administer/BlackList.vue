@@ -15,11 +15,11 @@
 
         <div v-if="banList.length">
             <h3>被封禁用户名单</h3>
-            <ul>
-                <li v-for="user in banList" :key="user.userId">
-                    用户名: {{ user.userName }}, 用户ID: {{ user.userId }}, IP地址: {{ user.userIp }}
-                </li>
-            </ul>
+            <el-table :data="banList" style="width: 100%">
+                <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
+                <el-table-column prop="userId" label="用户ID" width="180"></el-table-column>
+                <el-table-column prop="userIp" label="IP地址" width="180"></el-table-column>
+            </el-table>
         </div>
         <p v-else>暂无被封禁的用户</p>
     </div>
@@ -31,26 +31,24 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            pageNo: 1,           // 当前页码
-            pageSize: 5,         // 每页显示的用户数
-            banList: [],         // 存储被封禁的用户列表
+            pageNo: 1,
+            pageSize: 5,
+            banList: [],
         };
     },
     methods: {
         async fetchBanList() {
             try {
-                const token = localStorage.getItem("token"); // 获取存储在 localStorage 中的 token
+                const token = localStorage.getItem("token");
                 if (!token) {
                     alert('请先登录！');
                     return;
                 }
 
-                // 创建 form-data 格式的数据
                 const formData = new FormData();
                 formData.append('pageNo', this.pageNo);
                 formData.append('pageSize', this.pageSize);
 
-                // 发送请求
                 const response = await axios.get('/api/admin/ban/list', {
                     headers: {
                         'Authorization': token,
@@ -63,7 +61,7 @@ export default {
                 });
 
                 if (response.data.code === 0) {
-                    this.banList = response.data.data.userList; // 成功获取数据，保存到 banList 中
+                    this.banList = response.data.data.userList;
                     console.log('封禁用户列表:', this.banList);
                 } else {
                     console.error('查询失败:', response.data.message);
@@ -99,13 +97,7 @@ export default {
     margin-bottom: 20px;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 5px;
-    font-weight: bold;
+.el-table {
+    margin-top: 20px;
 }
 </style>

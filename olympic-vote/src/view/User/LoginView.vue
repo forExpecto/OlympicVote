@@ -12,6 +12,7 @@
                     <el-button type="primary" @click="login">登录</el-button>
                     <el-button @click="resetForm">重置</el-button>
                     <el-button @click="gotoRegister">注册</el-button>
+                    <el-button @click="admin">管理员</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -30,6 +31,9 @@ export default {
         };
     },
     methods: {
+        admin() {
+            this.$router.push('/DashBoard');
+        },
         gotoRegister() {
             this.$router.push('/RegisterView');
         },

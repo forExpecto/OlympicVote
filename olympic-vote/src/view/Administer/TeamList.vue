@@ -3,14 +3,11 @@
         <h2>查询团队列表</h2>
         <el-button type="primary" @click="fetchTeamList">查询团队列表</el-button>
 
-        <div v-if="teamList.length">
-            <h3>团队列表</h3>
-            <ul>
-                <li v-for="team in teamList" :key="team.teamId">
-                    团队名称: {{ team.teamName }} (ID: {{ team.teamId }})
-                </li>
-            </ul>
-        </div>
+        <el-table v-if="teamList.length" :data="teamList" style="width: 100%">
+            <el-table-column prop="teamName" label="团队名称" />
+            <el-table-column prop="teamId" label="团队ID" />
+        </el-table>
+
         <p v-else>暂无团队数据</p>
     </div>
 </template>
@@ -72,15 +69,5 @@ export default {
 .team-list-page h2 {
     text-align: center;
     margin-bottom: 20px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 </style>

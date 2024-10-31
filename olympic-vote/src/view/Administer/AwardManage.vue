@@ -10,14 +10,12 @@
             </el-form-item>
         </el-form>
 
-        <div v-if="exchangeList.length">
-            <h3>兑换列表</h3>
-            <ul>
-                <li v-for="item in exchangeList" :key="item.rewardId">
-                    奖品名称: {{ item.name }} | 所需积分: {{ item.score }} | 库存数量: {{ item.number }}
-                </li>
-            </ul>
-        </div>
+        <el-table v-if="exchangeList.length" :data="exchangeList" style="width: 100%">
+            <el-table-column prop="name" label="奖品名称" />
+            <el-table-column prop="score" label="所需积分" />
+            <el-table-column prop="number" label="库存数量" />
+        </el-table>
+
         <p v-else>当前无可兑换奖品</p>
     </div>
 </template>
@@ -28,20 +26,19 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            page: 1,            // 当前页码
-            exchangeList: [],   // 存储兑换列表
+            page: 1,
+            exchangeList: [],
         };
     },
     methods: {
         async fetchExchangeList() {
             try {
-                const token = localStorage.getItem("token"); // 获取存储在 localStorage 中的 token
+                const token = localStorage.getItem("token");
                 if (!token) {
                     alert('请先登录！');
                     return;
                 }
 
-                // 发送请求
                 const response = await axios.get('/api/vote/exchange', {
                     headers: {
                         'Authorization': token,
@@ -51,9 +48,8 @@ export default {
                     }
                 });
 
-                // 解析返回结构
                 if (response.data.code === 0) {
-                    this.exchangeList = response.data.data; // 成功获取数据，将 data 数组直接赋值给 exchangeList
+                    this.exchangeList = response.data.data;
                     console.log('兑换列表:', this.exchangeList);
                 } else {
                     console.error('查询失败:', response.data.message);
@@ -83,15 +79,5 @@ export default {
 .exchange-list-page h2 {
     text-align: center;
     margin-bottom: 20px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 </style>

@@ -41,6 +41,7 @@ export default {
     width: 200px;
     height: 100vh;
     background-color: #333;
+    border: #333;
     /* 侧边栏背景色为黑色 */
     color: #fff;
     /* 文字颜色为白色 */

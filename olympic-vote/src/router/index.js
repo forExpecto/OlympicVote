@@ -9,6 +9,10 @@ import TestView from '@/view/test/TestView.vue';
 
 const routes = [
     {
+        path: '/',
+        redirect: '/LoginView' // 重定向到登录界面  path: '/',
+    },
+    {
         path: '/BasicMessage',
         name: 'BasicMassage',
         component: BasicMassage
